@@ -134,6 +134,8 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 
 	# Dummy content: # ttk.Label(tab1, text ="Files").grid(column = 0, row = 0, padx = 30, pady = 30)
 
+	# ToDo: align/position Listbox and text field properly:
+
 	file_list = Listbox(tab1) # https://www.tutorialspoint.com/python/tk_listbox.htm
 	file_list.grid(column=0, row=0)
 	for file in os.listdir(path_unpacked_extension_directory):
@@ -149,19 +151,19 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 	##### Tab 2: AST: #####
 	##### ##### ##### #####
 
-	ttk.Label(tab2, text ="AST").grid(column = 0, row = 0, padx = 30, pady = 30)
+	ttk.Label(tab2, text ="AST").grid(column = 0, row = 0, padx = 30, pady = 30) # ToDo: call Esprima (once user clicks a "Generate AST" button) and show AST here, also allow the execution of graph queries on the AST
 
 	##### ##### ##### ##### ##### #####
 	##### Tab 3: Advanced Graphs: #####
 	##### ##### ##### ##### ##### #####
 
-	ttk.Label(tab3, text ="Advanced Graphs").grid(column = 0, row = 0, padx = 30, pady = 30)
+	ttk.Label(tab3, text ="Advanced Graphs").grid(column = 0, row = 0, padx = 30, pady = 30) # ToDo
 
 	##### ##### ##### ##### ##### #####
 	##### Tab 4: Vulnerabilities: #####
 	##### ##### ##### ##### ##### #####
 
-	ttk.Label(tab4, text ="Vulnerabilities").grid(column = 0, row = 0, padx = 30, pady = 30)
+	ttk.Label(tab4, text ="Vulnerabilities").grid(column = 0, row = 0, padx = 30, pady = 30) # ToDo
 
 
 # Execute Tkinter:
