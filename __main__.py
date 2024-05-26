@@ -20,7 +20,7 @@ def open_crx_file():
 		print(f"User selected no file.")
 	else:
 		print(f"User selected file: '{crx_file_path}'")
-		pass
+		open_main_window(crx_file_path)
 
 btn1 = Button(root, text = "Open .crx file", fg = "black", command=open_crx_file)
 btn1.grid(column=0, row=0, padx=10, pady=10)
@@ -37,7 +37,7 @@ def open_unpacked_chrome_extension():
 		print(f"User selected no directory.")
 	else:
 		print(f"User selected directory: '{directory}'")
-		pass
+		open_main_window(directory)
 
 btn2 = Button(root, text = "Open unpacked Chrome extension", fg = "black", command=open_unpacked_chrome_extension)
 btn2.grid(column=0, row=1, padx=10, pady=10)
@@ -61,6 +61,24 @@ def download_chrome_extension_based_on_extension_ID():
 
 btn3 = Button(root, text = "Download Chrome extension based on extension ID:", fg = "black", command=download_chrome_extension_based_on_extension_ID)
 btn3.grid(column=0, row=3, padx=10, pady=10)
+
+
+##### ##### ##### ##### 
+##### Main window: #####
+##### ##### ##### ##### 
+
+def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new-window-with-a-button-in-python-tkinter/
+	# Toplevel object which will be treated as a new window:
+	newWindow = Toplevel(root)
+	newWindow.title("BEGA (Browser Extension Graphical Analyzer)")
+
+	# https://stackoverflow.com/questions/15981000/tkinter-python-maximize-window
+	w, h = newWindow.winfo_screenwidth(), newWindow.winfo_screenheight()
+	newWindow.geometry("%dx%d+0+0" % (w, h))
+
+	# Widgets of new/main window:
+	Label(newWindow, text = f"Extension: {extension_path}").pack()
+
 
 # Execute Tkinter:
 root.mainloop()
