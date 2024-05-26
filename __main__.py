@@ -132,7 +132,18 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 	##### Tab 1: Files: #####
 	##### ##### ##### #####
 
-	ttk.Label(tab1, text ="Files").grid(column = 0, row = 0, padx = 30, pady = 30)
+	# Dummy content: # ttk.Label(tab1, text ="Files").grid(column = 0, row = 0, padx = 30, pady = 30)
+
+	file_list = Listbox(tab1) # https://www.tutorialspoint.com/python/tk_listbox.htm
+	file_list.grid(column=0, row=0)
+	for file in os.listdir(path_unpacked_extension_directory):
+		file_list.insert('end', file)
+	# ToDo: color files depending on whether they are content scripts/background scripts/(sub-)directories
+
+	file_text_field = Text(tab1)
+	file_text_field.grid(column=1, row=0)
+	file_text_field.config(state=DISABLED) # make text field read-only # https://stackoverflow.com/questions/3842155/is-there-a-way-to-make-the-tkinter-text-widget-read-only
+	# ToDo: display content of currently selected file, WITH syntax highlighting!, inlcuding vulnerability-specific highlighting of dangerous APIs/sinks/etc.!!!
 
 	##### ##### ##### ##### 
 	##### Tab 2: AST: #####
