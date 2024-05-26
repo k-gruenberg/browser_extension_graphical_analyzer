@@ -151,7 +151,7 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 	##### Tab 2: AST: #####
 	##### ##### ##### #####
 
-	ttk.Label(tab2, text ="AST").grid(column = 0, row = 0, padx = 30, pady = 30) # ToDo: call Esprima (once user clicks a "Generate AST" button) and show AST here, also allow the execution of graph queries on the AST
+	ttk.Label(tab2, text ="AST").grid(column = 0, row = 0, padx = 30, pady = 30) # ToDo: call Esprima (once user clicks a "Generate AST" button) and show AST (including some stats on # of nodes/edges/leaves/...) here, also allow the execution of graph queries on the AST
 
 	##### ##### ##### ##### ##### #####
 	##### Tab 3: Advanced Graphs: #####
