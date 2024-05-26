@@ -1,7 +1,11 @@
 from tkinter import * # cf. https://www.geeksforgeeks.org/create-first-gui-application-using-python-tkinter/
+from tkinter import ttk # https://www.geeksforgeeks.org/creating-tabbed-widget-with-python-tkinter/
 from tkinter.messagebox import showinfo # https://blog.furas.pl/python-tkinter-how-to-create-popup-window-or-messagebox-gb.html
 import webbrowser # https://stackoverflow.com/questions/4216985/call-to-operating-system-to-open-url
 from tkinter.filedialog import askopenfilename, askdirectory # https://stackoverflow.com/questions/3579568/choosing-a-file-in-python-with-simple-dialog # https://stackoverflow.com/questions/10993089/opening-and-reading-a-file-with-askopenfilename
+import os
+import base64
+from pathlib import Path # https://stackoverflow.com/questions/2860153/how-do-i-get-the-parent-directory-in-python
  
 # Tkinter root window:
 root = Tk()
@@ -65,19 +69,88 @@ btn3.grid(column=0, row=3, padx=10, pady=10)
 
 ##### ##### ##### ##### 
 ##### Main window: #####
-##### ##### ##### ##### 
+##### ##### ##### #####
+
+def unpack_chrome_extension(crx_file_path, destination_folder):
+	pass # ToDo
+
+def unpack_chrome_extension_for_doublex(crx_file_path, destination_folder):
+	pass # ToDo
+
+def pack_chrome_extension(directory, destination_crx_file):
+	pass # ToDo
 
 def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new-window-with-a-button-in-python-tkinter/
 	# Toplevel object which will be treated as a new window:
-	newWindow = Toplevel(root)
-	newWindow.title("BEGA (Browser Extension Graphical Analyzer)")
+	mainWindow = Toplevel(root)
+	mainWindow.title("BEGA (Browser Extension Graphical Analyzer)")
 
 	# https://stackoverflow.com/questions/15981000/tkinter-python-maximize-window
-	w, h = newWindow.winfo_screenwidth(), newWindow.winfo_screenheight()
-	newWindow.geometry("%dx%d+0+0" % (w, h))
+	w, h = mainWindow.winfo_screenwidth(), mainWindow.winfo_screenheight()
+	mainWindow.geometry("%dx%d+0+0" % (w, h))
+
+	# Sometimes we might need the packed .crx file, sometimes we might need the unpacked extension directory, maybe even tool-specific:
+	base64_id = str(base64.standard_b64encode(extension_path.encode('utf-8'))).replace("=", "_") # Use base64-encoded user-specified path for creating uniquely named temp directories.
+	path_packed_crx_file = ""
+	path_unpacked_extension_directory = ""
+	path_unpacked_extension_directory_doublex = ""
+	# https://stackoverflow.com/questions/3204782/how-to-check-if-a-file-is-a-directory-or-regular-file-in-python
+	if os.path.isfile(extension_path): ##### User gave file: #####
+		path_packed_crx_file = extension_path
+		path_unpacked_extension_directory = os.path.join(os.path.dirname(extension_path), '__bega_unpacked_extension_' + base64_id + "__")
+		path_unpacked_extension_directory_doublex = os.path.join(os.path.dirname(extension_path), '__bega_unpacked_extension_doublex_' + base64_id + "__")
+		unpack_chrome_extension(crx_file_path=extension_path, destination_folder=path_unpacked_extension_directory)
+		unpack_chrome_extension_for_doublex(crx_file_path=extension_path, destination_folder=path_unpacked_extension_directory_doublex)
+	elif os.path.isdir(extension_path): ##### User gave directory: #####
+		path_packed_crx_file = os.path.join(Path(extension_path).parent.absolute(), '__bega_packed_extension_' + base64_id + ".crx") # https://stackoverflow.com/questions/2860153/how-do-i-get-the-parent-directory-in-python
+		path_unpacked_extension_directory = extension_path
+		path_unpacked_extension_directory_doublex = os.path.join(Path(extension_path).parent.absolute(), '__bega_reunpacked_extension_doublex_' + base64_id + "__")
+		pack_chrome_extension(directory=extension_path, destination_crx_file=path_packed_crx_file)
+		# Re-unpack for DoubleX:
+		unpack_chrome_extension_for_doublex(crx_file_path=path_packed_crx_file, destination_folder=path_unpacked_extension_directory_doublex)
+	else:
+		showinfo("Path not found", f"The path '{extension_path}' seems to be neither a file nor a directory.")
 
 	# Widgets of new/main window:
-	Label(newWindow, text = f"Extension: {extension_path}").pack()
+	Label(mainWindow, text = f"Extension: {extension_path}").pack()
+
+	# Tab control: # https://www.geeksforgeeks.org/creating-tabbed-widget-with-python-tkinter/
+	tabControl = ttk.Notebook(mainWindow)
+
+	tab1 = ttk.Frame(tabControl)
+	tab2 = ttk.Frame(tabControl)
+	tab3 = ttk.Frame(tabControl)
+	tab4 = ttk.Frame(tabControl)
+	  
+	tabControl.add(tab1, text ='Files')
+	tabControl.add(tab2, text ='AST')
+	tabControl.add(tab3, text ='Advanced Graphs')
+	tabControl.add(tab4, text ='Vulnerabilities')
+	tabControl.pack(expand = 1, fill ="both")
+	
+	##### ##### ##### ##### 
+	##### Tab 1: Files: #####
+	##### ##### ##### #####
+
+	ttk.Label(tab1, text ="Files").grid(column = 0, row = 0, padx = 30, pady = 30)
+
+	##### ##### ##### ##### 
+	##### Tab 2: AST: #####
+	##### ##### ##### #####
+
+	ttk.Label(tab2, text ="AST").grid(column = 0, row = 0, padx = 30, pady = 30)
+
+	##### ##### ##### ##### ##### #####
+	##### Tab 3: Advanced Graphs: #####
+	##### ##### ##### ##### ##### #####
+
+	ttk.Label(tab3, text ="Advanced Graphs").grid(column = 0, row = 0, padx = 30, pady = 30)
+
+	##### ##### ##### ##### ##### #####
+	##### Tab 4: Vulnerabilities: #####
+	##### ##### ##### ##### ##### #####
+
+	ttk.Label(tab4, text ="Vulnerabilities").grid(column = 0, row = 0, padx = 30, pady = 30)
 
 
 # Execute Tkinter:
