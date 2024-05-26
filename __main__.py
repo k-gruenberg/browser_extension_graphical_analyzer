@@ -111,6 +111,8 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 	else:
 		showinfo("Path not found", f"The path '{extension_path}' seems to be neither a file nor a directory.")
 
+	# ToDo: delete temp files on exit; ???save temp files in a temp directory/in the home folder instead???
+
 	# Widgets of new/main window:
 	Label(mainWindow, text = f"Extension: {extension_path}").pack()
 	# ToDo: add label(s) for name and version of the extension here, extracted from the manifest.json file!
