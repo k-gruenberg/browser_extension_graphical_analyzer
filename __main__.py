@@ -154,7 +154,36 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 	file_text_field = Text(right_frame)
 	file_text_field.pack(fill="both", expand=True)
 	file_text_field.config(state=DISABLED) # make text field read-only # https://stackoverflow.com/questions/3842155/is-there-a-way-to-make-the-tkinter-text-widget-read-only
-	# ToDo: display content of currently selected file (always js-beautified! / auto-indented for the manifest.json!), WITH syntax highlighting!, inlcuding vulnerability-specific highlighting of dangerous APIs/sinks/etc.!!!
+	# ToDo: js-beautified! / auto-indented for the manifest.json!, WITH syntax highlighting!, inlcuding vulnerability-specific highlighting of dangerous APIs/sinks/etc.!!!
+
+	def set_displayed_text(text):
+		file_text_field.config(state=NORMAL) # Of course the opposite of "DISABLED" is "NORMAL" ...
+		file_text_field.delete(1.0, END) # https://stackoverflow.com/questions/30957085/how-can-i-set-the-text-widget-contents-to-the-value-of-a-variable-in-python-tkin
+		file_text_field.insert(END, text)
+		file_text_field.config(state=DISABLED)
+		# an absolute and utter absurdity...
+
+	def display_file_content(file_name):
+		f = os.path.join(path_unpacked_extension_directory, file_name)
+		if os.path.isfile(f):
+			try:
+				with open(f, "r") as file:
+					set_displayed_text(file.read())
+			except Exception as error:
+				set_displayed_text(f"File read error: {error}")
+		elif os.path.isdir(f):
+			set_displayed_text(f"'{file_name}' is a directory.")
+		else:
+			set_displayed_text(f"Error: '{file_name}' is neither a file nor a directory.")
+
+	def onselect(event): # https://stackoverflow.com/questions/6554805/getting-a-callback-when-a-tkinter-listbox-selection-is-changed
+		w = event.widget
+		index = int(w.curselection()[0])
+		value = w.get(index)
+		print('User selected list item %d: "%s"' % (index, value))
+		display_file_content(value)
+
+	file_list.bind('<<ListboxSelect>>', onselect)
 
 	##### ##### ##### ##### 
 	##### Tab 2: AST: #####
