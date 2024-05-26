@@ -143,7 +143,7 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 	file_text_field = Text(tab1)
 	file_text_field.grid(column=1, row=0)
 	file_text_field.config(state=DISABLED) # make text field read-only # https://stackoverflow.com/questions/3842155/is-there-a-way-to-make-the-tkinter-text-widget-read-only
-	# ToDo: display content of currently selected file, WITH syntax highlighting!, inlcuding vulnerability-specific highlighting of dangerous APIs/sinks/etc.!!!
+	# ToDo: display content of currently selected file (always js-beautified!), WITH syntax highlighting!, inlcuding vulnerability-specific highlighting of dangerous APIs/sinks/etc.!!!
 
 	##### ##### ##### ##### 
 	##### Tab 2: AST: #####
