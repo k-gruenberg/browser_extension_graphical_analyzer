@@ -135,16 +135,22 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 
 	# Dummy content: # ttk.Label(tab1, text ="Files").grid(column = 0, row = 0, padx = 30, pady = 30)
 
-	# ToDo: align/position Listbox and text field properly:
+	tab1.grid_columnconfigure(0, weight = 1) # https://stackoverflow.com/questions/68479586/divide-a-window-into-two-in-tkinter
+	tab1.grid_columnconfigure(1, weight = 1)
+	tab1.grid_rowconfigure(0, weight = 1)
 
-	file_list = Listbox(tab1) # https://www.tutorialspoint.com/python/tk_listbox.htm
-	file_list.grid(column=0, row=0)
+	left_frame = Frame(tab1) # , bg = "red"
+	left_frame.grid(column=0, row=0, sticky = "nesw")
+	file_list = Listbox(left_frame) # https://www.tutorialspoint.com/python/tk_listbox.htm
+	file_list.pack(fill="both", expand=True)
 	for file in os.listdir(path_unpacked_extension_directory):
 		file_list.insert('end', file)
 	# ToDo: color files depending on whether they are content scripts/background scripts/(sub-)directories
 
-	file_text_field = Text(tab1)
-	file_text_field.grid(column=1, row=0)
+	right_frame = Frame(tab1) # , bg = "green"
+	right_frame.grid(column=1, row=0, sticky = "nesw")
+	file_text_field = Text(right_frame)
+	file_text_field.pack(fill="both", expand=True)
 	file_text_field.config(state=DISABLED) # make text field read-only # https://stackoverflow.com/questions/3842155/is-there-a-way-to-make-the-tkinter-text-widget-read-only
 	# ToDo: display content of currently selected file (always js-beautified! / auto-indented for the manifest.json!), WITH syntax highlighting!, inlcuding vulnerability-specific highlighting of dangerous APIs/sinks/etc.!!!
 
