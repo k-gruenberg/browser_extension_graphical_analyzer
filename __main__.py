@@ -148,6 +148,7 @@ def open_main_window(extension_path): # https://www.geeksforgeeks.org/open-a-new
 	for file in os.listdir(path_unpacked_extension_directory):
 		file_list.insert('end', file)
 	# ToDo: color files depending on whether they are content scripts/background scripts/(sub-)directories
+	# ToDo: handle directories!
 
 	right_frame = Frame(tab1) # , bg = "green"
 	right_frame.grid(column=1, row=0, sticky = "nesw")
